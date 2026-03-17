@@ -30,11 +30,19 @@ class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
             initialValue = emptyList()
         )
 
-    fun startQuiz(userId: Int) {
+    fun startQuiz(userId: Int, category: String? = null, limit: Int = 12) {
         currentUserId = userId
         viewModelScope.launch {
-            // Updated to use all 12 available questions
-            questions = repository.getRandomQuestions(12)
+            questions = if (category == null) {
+                repository.getRandomQuestions(limit)
+            } else {
+                val categoryQuestions = repository.getRandomQuestionsByCategory(category, limit)
+                if (categoryQuestions.isEmpty()) {
+                    repository.getRandomQuestions(limit)
+                } else {
+                    categoryQuestions
+                }
+            }
             currentQuestionIndex = 0
             score = 0
             isQuizFinished = false

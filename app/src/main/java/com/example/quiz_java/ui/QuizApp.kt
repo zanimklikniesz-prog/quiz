@@ -11,11 +11,7 @@ import androidx.navigation.NavType
 import com.example.quiz_java.data.database.QuizDatabase
 import com.example.quiz_java.data.model.User
 import com.example.quiz_java.data.repository.QuizRepository
-import com.example.quiz_java.ui.screens.HomeScreen
-import com.example.quiz_java.ui.screens.QuizScreen
-import com.example.quiz_java.ui.screens.WelcomeScreen
-import com.example.quiz_java.ui.screens.ResultScreen
-import com.example.quiz_java.ui.screens.LeaderboardScreen
+import com.example.quiz_java.ui.screens.*
 import com.example.quiz_java.ui.viewmodel.QuizViewModel
 import com.example.quiz_java.ui.viewmodel.QuizViewModelFactory
 import kotlinx.coroutines.launch
@@ -60,11 +56,14 @@ fun QuizApp() {
         composable("home") {
             HomeScreen(
                 username = currentUser?.username ?: "Guest",
-                onStartQuiz = {
+                onStartRandomQuiz = {
                     currentUser?.let { user ->
                         viewModel.startQuiz(user.id)
                         navController.navigate("quiz")
                     }
+                },
+                onSelectCategory = {
+                    navController.navigate("categories")
                 },
                 onViewLeaderboard = {
                     navController.navigate("leaderboard")
@@ -75,6 +74,17 @@ fun QuizApp() {
                         popUpTo("welcome") { inclusive = true }
                     }
                 }
+            )
+        }
+        composable("categories") {
+            CategoryMenuScreen(
+                onCategorySelected = { category ->
+                    currentUser?.let { user ->
+                        viewModel.startQuiz(user.id, category.title)
+                        navController.navigate("quiz")
+                    }
+                },
+                onBack = { navController.popBackStack() }
             )
         }
         composable("quiz") {
@@ -107,11 +117,8 @@ fun QuizApp() {
                 score = score,
                 totalQuestions = total,
                 onPlayAgain = {
-                    currentUser?.let { user ->
-                        viewModel.startQuiz(user.id)
-                        navController.navigate("quiz") {
-                            popUpTo("home")
-                        }
+                    navController.navigate("home") {
+                        popUpTo("home")
                     }
                 },
                 onGoHome = {

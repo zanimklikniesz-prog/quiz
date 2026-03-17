@@ -3,6 +3,7 @@ package com.example.quiz_java.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Leaderboard
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,7 +19,8 @@ import com.example.quiz_java.ui.theme.Quiz_JavaTheme
 @Composable
 fun HomeScreen(
     username: String,
-    onStartQuiz: () -> Unit,
+    onStartRandomQuiz: () -> Unit,
+    onSelectCategory: () -> Unit,
     onViewLeaderboard: () -> Unit,
     onLogout: () -> Unit
 ) {
@@ -52,7 +54,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.Center
         ) {
             Button(
-                onClick = onStartQuiz,
+                onClick = onStartRandomQuiz,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(64.dp),
@@ -60,7 +62,24 @@ fun HomeScreen(
             ) {
                 Icon(Icons.Default.PlayArrow, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Start Quiz", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                Text("Random Quiz", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = onSelectCategory,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp),
+                shape = MaterialTheme.shapes.large,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary
+                )
+            ) {
+                Icon(Icons.Default.List, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Select Category", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -84,6 +103,12 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     Quiz_JavaTheme {
-        HomeScreen(username = "Guest", onStartQuiz = {}, onViewLeaderboard = {}, onLogout = {})
+        HomeScreen(
+            username = "Guest", 
+            onStartRandomQuiz = {}, 
+            onSelectCategory = {},
+            onViewLeaderboard = {}, 
+            onLogout = {}
+        )
     }
 }

@@ -25,6 +25,7 @@ class QuizRepository(
     fun getAllQuestions(): Flow<List<Question>> = questionDao.getAllQuestions()
     fun getQuestionsByCategory(category: String): Flow<List<Question>> = questionDao.getQuestionsByCategory(category)
     suspend fun getRandomQuestions(limit: Int): List<Question> = questionDao.getRandomQuestions(limit)
+    suspend fun getRandomQuestionsByCategory(category: String, limit: Int): List<Question> = questionDao.getRandomQuestionsByCategory(category, limit)
 
     // Score operations
     suspend fun insertScore(score: Score) {

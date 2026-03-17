@@ -18,6 +18,9 @@ interface QuestionDao {
     @Query("SELECT * FROM questions ORDER BY RANDOM() LIMIT :limit")
     suspend fun getRandomQuestions(limit: Int): List<Question>
 
+    @Query("SELECT * FROM questions WHERE category = :category ORDER BY RANDOM() LIMIT :limit")
+    suspend fun getRandomQuestionsByCategory(category: String, limit: Int): List<Question>
+
     @Query("DELETE FROM questions")
     suspend fun deleteAllQuestions()
 }
