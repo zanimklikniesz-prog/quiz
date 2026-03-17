@@ -33,7 +33,8 @@ class QuizViewModel(private val repository: QuizRepository) : ViewModel() {
     fun startQuiz(userId: Int) {
         currentUserId = userId
         viewModelScope.launch {
-            questions = repository.getRandomQuestions(5)
+            // Updated to use all 12 available questions
+            questions = repository.getRandomQuestions(12)
             currentQuestionIndex = 0
             score = 0
             isQuizFinished = false
