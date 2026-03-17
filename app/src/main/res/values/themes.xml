@@ -1,0 +1,4 @@
+<resources>
+
+    <style name="Theme.Quiz_Java" parent="Theme.MaterialComponents.Light" />
+</resources>
